@@ -42,7 +42,8 @@ fi
 base_dir=$(dirname "$(dirname "$0")") # Go to repo root
 folder="$base_dir/$category"
 date=$(date +%Y-%m-%d)
-filename="$folder/${date}-${slug}.md"
+note_folder="$folder/${date}-${slug}"
+filename="$note_folder/note.md"
 template="$base_dir/template.md"
 
 # Check template exists
@@ -56,10 +57,11 @@ fi
 # 📝 Create note
 # =======================
 
-mkdir -p "$folder"
+mkdir -p "$note_folder"
 cp "$template" "$filename"
 
-echo "✅ Note created at: $filename"
+echo "✅ Note folder created at: $note_folder"
+echo "✅ Note file created at: $filename"
 
 # =======================
 # 🖊️ Open in editor

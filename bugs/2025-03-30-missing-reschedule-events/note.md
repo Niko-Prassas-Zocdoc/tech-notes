@@ -5,7 +5,7 @@
 ---
 
 ## 🔍 Problem
-A change was rolled out to do atomic reschedules for syncs.  In the post processing of reschedules, we were missing a step to send the appropriate events.  In particular, we were missing sending the `AppointmentRescheduleCreated` event.  AppointmentBox depends on this event to populate the correct in its system.  So AppointmentBox was still showing the original time.
+A change was rolled out to do atomic reschedules for syncs.  In the post processing of reschedules, we were missing a step to send the appropriate events.  In particular, we were missing sending the `AppointmentRescheduleCreated` event.  AppointmentBox depends on this event to populate the correct appointment time in its system.  So AppointmentBox was still showing the original time.
 
 Aside from fixing the issue, we also want to backfill the missing events because a lot of appointments were impacted.
 
@@ -42,6 +42,12 @@ UpdatedExistingAppointment will be true if:
     - It's a practice confirmation and the appointment wasn't already confirmed
 
 I am trying to determine if this will be true for the impacted appointments, because I am hoping the existing code will create the events without having to write too much extra code.  I think/hope it will work, because the impacted appointments have been created, and they should have the new request id for the reschedule.  For instance, if I looked at impacted appointment `app_000bb655-c2a2-4a22-9c6c-16875727ca92` in AppointmentLedger, the latest cache appointment has an old request id that is not equal to the current request id.  So hopefully the endpoint I am adding does what it's supposed to do.
+
+### Question 3
+What format should we send a timestamp when the plinth api expects `format: date-time`? [Example](https://github.com/Zocdoc/zocdoc_web/pull/62614/files#diff-7a1c806defffc0c5dbf8d835070ac9860999b9942af7b28b25303e881ac5dc22R273)
+
+### Answer 3
+We can pass a UTC ISO string, like `2022-10-03T20:16:46Z`.  I think we can potentially pass other timestamps that have offsets in them, but we don't need that atm.
 
 I believe for my endpoint, I should pass the request id corresponding to the `AppointmentRescheduleRequested` event.
 
