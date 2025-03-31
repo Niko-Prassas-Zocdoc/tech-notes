@@ -19,6 +19,8 @@ Aside from fixing the issue, we also want to backfill the missing events because
 [PR](https://github.com/Zocdoc/zocdoc_web/pull/62614) to create the event.  Is this gonna just work?  Using code that Shashank is using to create the events.  It has a lot of logic though. If the data is wonky enough, the events could not get created based on the logic inside the code.
 
 Here is an impacted appointment: `app_000bb655-c2a2-4a22-9c6c-16875727ca92`
+The appointment was rescheduled from 11:40am to 10:40am, but Appointment Inbox still shows 11:40am.  Hopefully sending the reschedule event
+will change that.
 
 ### Question 1
 For `AppointmentRescheduleCreated` events, is the request id for these events the same as the request id of the corresponding `AppointmentRescheduleRequested` event?  I can probably use Cistern and/or AppointmentLedger to figure this out.
