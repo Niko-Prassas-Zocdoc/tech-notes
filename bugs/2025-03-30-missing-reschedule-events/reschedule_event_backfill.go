@@ -119,7 +119,7 @@ func makeRequest(payload RescheduleEventPayload) (*http.Request, error) {
 		return nil, fmt.Errorf("error marshaling JSON: %v", err)
 	}
 
-	url := "https://zocdoc.com/synchronizer-updates/v1/reschedule-events"
+	url := "https://api2-private.east.zocdoccloud.com/synchronizer-updates/v1/reschedule-events"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %v", err)
